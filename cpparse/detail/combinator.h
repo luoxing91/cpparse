@@ -122,11 +122,11 @@ namespace detail
 	/*! Behaves like the sequence_combinator, but accumulates the results.
 	 *  FIXME: This could be a composite combinator, might make it more useful.
 	 */
-	template<typename R, typename T, template<typename> class A>
-	class merge_combinator : public uniform_combinator<typename A<R>::result_type, T, R>
+	template<typename R, typename T>
+	class merge_combinator : public uniform_combinator<typename accumulator<R>::result_type, T, R>
 	{
 	public:
-		typedef typename A<R>::result_type result_type;
+		typedef typename accumulator<R>::result_type result_type;
 		typedef typename uniform_combinator<result_type, T, R>::element_pointer element_pointer;
 
 	public:
@@ -144,7 +144,7 @@ namespace detail
 			if (first_result.is_nothing())
 				return maybe<result_type>::nothing;
 
-			A<R> accum;
+			accumulator<R> accum;
 			accum.append(first_result.from_just());
 
 			auto second_result = m_second->parse(buffer);
@@ -169,11 +169,11 @@ namespace detail
 	/*! Stops parsing and returns the result so far when the "max" limit is hit,
 	 *  or when the parser fails. Fails if the "min" limit is not met.
 	 */
-	template<typename R, typename T, template<typename> class A>
-	class many_combinator : public uniform_combinator<typename A<R>::result_type, T, R>
+	template<typename R, typename T>
+	class many_combinator : public uniform_combinator<typename accumulator<R>::result_type, T, R>
 	{
 	public:
-		typedef typename A<R>::result_type result_type;
+		typedef typename accumulator<R>::result_type result_type;
 		typedef typename uniform_combinator<result_type, T, R>::element_pointer element_pointer;
 
 	public:
@@ -188,7 +188,7 @@ namespace detail
 			auto start = buffer.here();
 
 			std::size_t i = 0;
-			A<R> accum;
+			accumulator<R> accum;
 
 			//! A max of "0" means the max is unbounded.
 			while (!m_max || i < m_max)

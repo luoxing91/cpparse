@@ -36,39 +36,39 @@ namespace cpparse
 	// ******************************************************************
 	//! Merge Combinator - combine the output of two parsers.
 	// ******************************************************************
-	template<typename R, typename T, template<typename> class A>
-	using merge_combinator = typename detail::parser_traits<detail::merge_combinator<R, T, A>>::type_pointer;
+	template<typename R, typename T>
+	using merge_combinator = typename detail::parser_traits<detail::merge_combinator<R, T>>::type_pointer;
 
 	/*! If the vector accumulator is used here, note that chained calls will create nested vectors
 	 *  of only two elements. As in [a, [b, [c, d]]] for three calls. FIXME: Modify vector accumulator
 	 *  to merge passed arrays instead of nesting them?
 	 */
-	template<template<typename> class A, class P>
-	merge_combinator<out_type<P>, in_type<P>, A> operator>>=(P a, parser<out_type<P>, in_type<P>> b)
+	template<class P>
+	merge_combinator<out_type<P>, in_type<P>> operator>>=(P a, parser<out_type<P>, in_type<P>> b)
 	{
-		return make_parser<merge_combinator<out_type<P>, in_type<P>, A>>(a, b);
+		return make_parser<merge_combinator<out_type<P>, in_type<P>>>(a, b);
 	}
 
 	// ******************************************************************
 	//! Many Combinator - repeatedly use a parser until it fails.
 	// ******************************************************************
-	template<typename R, typename T, template<typename> class A>
-	using many_combinator = typename detail::parser_traits<detail::many_combinator<R, T, A>>::type_pointer;
+	template<typename R, typename T>
+	using many_combinator = typename detail::parser_traits<detail::many_combinator<R, T>>::type_pointer;
 
 	/*! The accumulator for many and many1 should default to the vector version, however once A no
 	 *  longer needs to be explicitly given, the char parser overrides are no longer chosen over
 	 *  this default version with P. FIXME: change name of char many / figure out new template format.
 	 */
-	template<template<typename> class A, class P>
-	many_combinator<out_type<P>, in_type<P>, A> many(P p, std::size_t min = 0, std::size_t max = 0)
+	template<class P>
+	many_combinator<out_type<P>, in_type<P>> many(P p, std::size_t min = 0, std::size_t max = 0)
 	{
-		return make_parser<many_combinator<out_type<P>, in_type<P>, A>>(p, min, max);
+		return make_parser<many_combinator<out_type<P>, in_type<P>>>(p, min, max);
 	}
 
-	template<template<typename> class A, class P>
-	many_combinator<out_type<P>, in_type<P>, A> many1(P p, std::size_t max = 0)
+	template<class P>
+	many_combinator<out_type<P>, in_type<P>> many1(P p, std::size_t max = 0)
 	{
-		return many<A, P>(p, 1, max);
+		return many<P>(p, 1, max);
 	}
 
 	// ******************************************************************

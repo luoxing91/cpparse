@@ -26,8 +26,8 @@ namespace cpparse
 	block_combinator<std::vector<out_type<P>>, in_type<P>, std::vector<out_type<P>>> sep_by(P p, S s)
 	{
 		return block<std::vector<out_type<P>>, in_type<P>, std::vector<out_type<P>>>()
-			->* ( lift_vector(p)                   << tag("first") )
-			->* ( many<vector_accumulator>(s >> p) << tag("rest")  )
+			->* ( lift_vector(p) << tag("first") )
+			->* ( many(s >> p)   << tag("rest")  )
 			^ [](const std::map<std::string, std::vector<out_type<P>>>& m)
 			{
 				std::vector<out_type<P>> result;
@@ -44,9 +44,9 @@ namespace cpparse
 	block_combinator<std::vector<out_type<P>>, in_type<P>, std::vector<out_type<P>>> end_by(P p, S s)
 	{
 		return block<std::vector<out_type<P>>, in_type<P>, std::vector<out_type<P>>>()
-			->* ( lift_vector(p)                   << tag("first") )
-			->* ( many<vector_accumulator>(s >> p) << tag("rest")  )
-			->* ( s                                                )
+			->* ( lift_vector(p) << tag("first") )
+			->* ( many(s >> p)   << tag("rest")  )
+			->* ( s                              )
 			^ [](const std::map<std::string, std::vector<out_type<P>>>& m)
 			{
 				std::vector<out_type<P>> result;
