@@ -26,8 +26,7 @@ namespace detail
 
 	public:
 		parser() = default;
-		//! For now, parser copying is not allowed.
-		parser(const parser&) = delete;
+		parser(const parser& other) = default;
 		virtual ~parser() = default;
 
 		const std::string& tag() const { return m_tag; }
@@ -61,7 +60,7 @@ namespace detail
 		forward_parser()
 		: parser<R, T>(), m_target(nullptr) {}
 
-		forward_parser(const forward_parser&) = delete;
+		forward_parser(const forward_parser&) = default;
 		~forward_parser() = default;
 
 		//! Set the parser to pass operations to. Can also be reset to nullptr.
@@ -92,7 +91,7 @@ namespace detail
 		skip_parser(subtype_pointer p)
 		: parser<M, T>(), m_parser(p) {}
 
-		skip_parser(const skip_parser&) = delete;
+		skip_parser(const skip_parser&) = default;
 		~skip_parser() = default;
 
 		maybe<M> parse(buffer<T>& buffer) const
@@ -120,7 +119,7 @@ namespace detail
 		option_parser(subtype_pointer p, const R& a)
 		: parser<R, T>(), m_parser(p), m_alternate(a) {}
 
-		option_parser(const option_parser&) = delete;
+		option_parser(const option_parser&) = default;
 		~option_parser() = default;
 
 		maybe<R> parse(buffer<T>& buffer) const
@@ -153,7 +152,7 @@ namespace detail
 		lift_parser(subtype_pointer p, const F& f)
 		: parser<R, T>(), m_parser(p), m_function(f) {}
 
-		lift_parser(const lift_parser&) = delete;
+		lift_parser(const lift_parser&) = default;
 		~lift_parser() = default;
 
 		maybe<R> parse(buffer<T>& buffer) const
@@ -181,7 +180,7 @@ namespace detail
 		oneof_parser(const std::vector<R>& c)
 		: parser<R, T>(), m_choices(c) {}
 
-		oneof_parser(const oneof_parser&) = delete;
+		oneof_parser(const oneof_parser&) = default;
 		~oneof_parser() = default;
 
 		maybe<R> parse(buffer<T>& buffer) const
@@ -215,7 +214,7 @@ namespace detail
 		noneof_parser(const std::vector<R>& c)
 		: parser<R, T>(), m_rejects(c) {}
 
-		noneof_parser(const noneof_parser&) = delete;
+		noneof_parser(const noneof_parser&) = default;
 		~noneof_parser() = default;
 
 		maybe<R> parse(buffer<T>& buffer) const

@@ -40,10 +40,12 @@ namespace cpparse
 	parser_tag tag(const std::string& s) { return {s}; }
 
 	template<class P>
-	P operator<<(P p, const parser_tag& t)
+	P operator<<(const P& p, const parser_tag& t)
 	{
-		p->set_tag(t.string);
-		return p;
+		auto tagged = make_parser<P>(*p);
+		tagged->set_tag(t.string);
+
+		return tagged;
 	}
 
 	// ******************************************************************

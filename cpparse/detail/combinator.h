@@ -25,7 +25,7 @@ namespace detail
 		uniform_combinator()
 		: parser<R, T>() {}
 
-		uniform_combinator(const uniform_combinator&) = delete;
+		uniform_combinator(const uniform_combinator&) = default;
 		virtual ~uniform_combinator() = default;
 	};
 
@@ -42,7 +42,7 @@ namespace detail
 		composite_combinator()
 		: parser<R, T>() {}
 
-		composite_combinator(const composite_combinator&) = delete;
+		composite_combinator(const composite_combinator&) = default;
 		virtual ~composite_combinator() = default;
 	};
 
@@ -60,7 +60,7 @@ namespace detail
 		choice_combinator(element_pointer f, element_pointer s)
 		: uniform_combinator<R, T, R>(), m_first(f), m_second(s) {}
 
-		choice_combinator(const choice_combinator&) = delete;
+		choice_combinator(const choice_combinator&) = default;
 		~choice_combinator() = default;
 
 		maybe<R> parse(buffer<T>& buffer) const
@@ -94,7 +94,7 @@ namespace detail
 		sequence_combinator(minor_pointer f, major_pointer s)
 		: composite_combinator<R, T, R, M>(), m_first(f), m_second(s) {}
 
-		sequence_combinator(const sequence_combinator&) = delete;
+		sequence_combinator(const sequence_combinator&) = default;
 		~sequence_combinator() = default;
 
 		maybe<R> parse(buffer<T>& buffer) const
@@ -133,7 +133,7 @@ namespace detail
 		merge_combinator(element_pointer f, element_pointer s)
 		: uniform_combinator<result_type, T, R>(), m_first(f), m_second(s) {}
 
-		merge_combinator(const merge_combinator&) = delete;
+		merge_combinator(const merge_combinator&) = default;
 		~merge_combinator() = default;
 
 		maybe<result_type> parse(buffer<T>& buffer) const
@@ -180,7 +180,7 @@ namespace detail
 		many_combinator(element_pointer p, std::size_t min, std::size_t max)
 		: uniform_combinator<result_type, T, R>(), m_parser(p), m_min(min), m_max(max) {}
 
-		many_combinator(const many_combinator&) = delete;
+		many_combinator(const many_combinator&) = default;
 		~many_combinator() = default;
 
 		maybe<result_type> parse(buffer<T>& buffer) const
@@ -230,7 +230,7 @@ namespace detail
 		block_combinator()
 		: m_statements() {}
 
-		block_combinator(const block_combinator&) = delete;
+		block_combinator(const block_combinator&) = default;
 		~block_combinator() = default;
 
 		block_combinator& then(element_pointer p)
